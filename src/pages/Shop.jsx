@@ -20,6 +20,7 @@ const Shop = () => {
         <Container className="filter-bar-contianer">
           <Row className="justify-content-center">
             <Col md={4}>
+              {/* <FilterSelect setFilterList={setFilterList} /> */}
               <FilterSelect setFilterList={setFilterList} />
             </Col>
             <Col md={8}>

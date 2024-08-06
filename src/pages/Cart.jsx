@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   addToCart,
   decreaseQty,
@@ -84,6 +85,11 @@ const Cart = () => {
                 <h3>${totalPrice}.00</h3>
               </div>
             </div>
+            <Link to={"/checkout"} style={{
+                textDecoration: "none"
+            }}>
+            <button aria-label="Add" type="submit" className="add" style={{ padding: `15px 15px`, backgroundColor: '#0f3460', color: 'white', fontSize: '17px', borderRadius: '7px', width: '220px' }}>Checkout</button>
+          </Link>
           </Col>
         </Row>
       </Container>

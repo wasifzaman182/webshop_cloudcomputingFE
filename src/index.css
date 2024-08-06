@@ -65,6 +65,15 @@ button {
   display: flex;
 }
 
+.product-page button.add {
+  padding: 10px 15px;
+  background-color: #0f3460;
+  color: white;
+  font-size: 17px;
+  border-radius: 7px;
+}
+
+
 /*   ---Home Slider---   */
 
 .homeSlide {

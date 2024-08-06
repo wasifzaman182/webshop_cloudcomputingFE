@@ -37,7 +37,7 @@ const customStyles = {
 
 const FilterSelect = ({setFilterList}) => {
     const handleChange = (selectedOption)=> {
-        setFilterList(products.filter(item => item.category ===selectedOption.value))
+        setFilterList(products.filter(item => item.category === selectedOption.value))
     }
     return (
     <Select
