@@ -52,7 +52,7 @@ const Checkout = () => {
   };
 
   const createOrder = async () => {
-    await saveOrder(newCustomerId, 'shipping', totalPrice, address, address);
+    await saveOrder(newCustomerId, 'shipping', totalPrice, 1, 2);
   };
 
   const checkoutButtonClassName =
