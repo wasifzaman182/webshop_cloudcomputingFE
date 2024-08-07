@@ -1,6 +1,6 @@
 import "./Input.css"
 
-const Input = ({ name, type }) => {
+const Input = ({ name, type, value, changeHandler }) => {
 
     const options = [
         "HTML",
@@ -16,8 +16,10 @@ const Input = ({ name, type }) => {
                 type="text"
                 name="address"
                 className="input-field"
-                // value={formData.address}
-                // onChange={handleChange}
+                onChange={(e) => {
+                    changeHandler(e.target.value);
+                }}
+                value={value}
                 required
             />
         </label>
@@ -27,7 +29,7 @@ const Input = ({ name, type }) => {
             Country:
         </label>
         <div className="select-arrow">
-            <select className="select-field">
+            <select className="select-field" onSelect={(e) => changeHandler(e.target.value)}>
                 <option>Please choose a country</option>
                 {options.map((option, index) => <option key={index} >{option}</option>)}
             </select>

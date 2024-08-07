@@ -2,19 +2,25 @@ import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  addToCart,
-  decreaseQty,
-  deleteProduct,
-} from "../app/features/cart/cartSlice";
-import { createCustomer } from "../api/service";
+import { createCustomer, saveOrder } from "../api/service";
 
 import Input from "../components/Input/Input";
+
 const Checkout = () => {
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [address, setAddress] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [country, setCountry] = useState();
+  const [city, setCity] = useState();
+  const [postalCode, setPostalCode] = useState();
+  const [state, setState] = useState();
+
   const [checkoutButtonDisable, setCheckoutButtonDisable] = useState(true);
+  const [newCustomerId, setNewCustomerId] = useState();
   const { cartList } = useSelector((state) => state.cart);
-  const dispatch = useDispatch();
-  // middlware to localStorage
+
   const totalPrice = cartList.reduce(
     (price, item) => price + item.qty * item.price,
     0
@@ -26,9 +32,27 @@ const Checkout = () => {
 
   const saveCustomer = async () => {
     console.log("Saving customer information");
-    // await createCustomer();
+
+    const customer = await createCustomer(
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      address,
+      postalCode,
+      country,
+      state,
+      city
+    );
+
     console.log("Customer information saved!");
+
     setCheckoutButtonDisable(false);
+    setNewCustomerId(customer.id);
+  };
+
+  const createOrder = async () => {
+    await saveOrder(newCustomerId, 'shipping', totalPrice, address, address);
   };
 
   const checkoutButtonClassName =
@@ -39,27 +63,72 @@ const Checkout = () => {
       <Container>
         <Row className="justify-content-center">
           <Col md={8}>
-            <Input name="Email" type="input" />
-                <Input name="Country" type="select" />
+            <Input
+              name="Email"
+              type="input"
+              value={email}
+              changeHandler={setEmail}
+            />
+            <Input
+              name="Country"
+              type="select"
+              value={country}
+              changeHandler={setCountry}
+            />
             <Row>
               <Col>
-                <Input name="First Name" type="input" />
+                <Input
+                  name="First Name"
+                  type="input"
+                  value={firstName}
+                  changeHandler={setFirstName}
+                />
               </Col>
               <Col>
-                <Input name="Last Name" type="input" />
+                <Input
+                  name="Last Name"
+                  type="input"
+                  value={lastName}
+                  changeHandler={setLastName}
+                />
               </Col>
             </Row>
-            <Input name="Address" type="input" />
-            <Input name="State" type="input" />
+            <Input
+              name="Address"
+              type="input"
+              value={address}
+              changeHandler={setAddress}
+            />
+            <Input
+              name="State"
+              type="input"
+              value={state}
+              changeHandler={setState}
+            />
             <Row>
               <Col>
-                <Input name="City" type="input" />
+                <Input
+                  name="City"
+                  type="input"
+                  value={city}
+                  changeHandler={setCity}
+                />
               </Col>
               <Col>
-                <Input name="Postal Code" type="input" />
+                <Input
+                  name="Postal Code"
+                  type="input"
+                  value={postalCode}
+                  changeHandler={setPostalCode}
+                />
               </Col>
             </Row>
-            <Input name="Phone Number" type="input" />
+            <Input
+              name="Phone Number"
+              type="input"
+              value={phoneNumber}
+              changeHandler={setPhoneNumber}
+            />
             <button
               aria-label="Add"
               type="submit"
@@ -96,6 +165,7 @@ const Checkout = () => {
                 type="submit"
                 className={checkoutButtonClassName}
                 disabled={checkoutButtonDisable}
+                onClick={createOrder}
                 style={{
                   padding: `15px 15px`,
                   backgroundColor: "#0f3460",
