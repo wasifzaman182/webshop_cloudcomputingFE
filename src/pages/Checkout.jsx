@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -7,9 +7,11 @@ import {
   decreaseQty,
   deleteProduct,
 } from "../app/features/cart/cartSlice";
+import { createCustomer } from "../api/service";
 
 import Input from "../components/Input/Input";
 const Checkout = () => {
+  const [checkoutButtonDisable, setCheckoutButtonDisable] = useState(true);
   const { cartList } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   // middlware to localStorage
@@ -17,20 +19,28 @@ const Checkout = () => {
     (price, item) => price + item.qty * item.price,
     0
   );
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    // if(CartItem.length ===0) {
-    //   const storedCart = localStorage.getItem("cartItem");
-    //   setCartItem(JSON.parse(storedCart));
-    // }
   }, []);
+
+  const saveCustomer = async () => {
+    console.log("Saving customer information");
+    // await createCustomer();
+    console.log("Customer information saved!");
+    setCheckoutButtonDisable(false);
+  };
+
+  const checkoutButtonClassName =
+    "add " + (checkoutButtonDisable ? "disable" : "");
+
   return (
     <section className="cart-items">
       <Container>
         <Row className="justify-content-center">
           <Col md={8}>
             <Input name="Email" type="input" />
-            <Input name="Email" type="select" />
+                <Input name="Country" type="select" />
             <Row>
               <Col>
                 <Input name="First Name" type="input" />
@@ -40,6 +50,7 @@ const Checkout = () => {
               </Col>
             </Row>
             <Input name="Address" type="input" />
+            <Input name="State" type="input" />
             <Row>
               <Col>
                 <Input name="City" type="input" />
@@ -49,6 +60,22 @@ const Checkout = () => {
               </Col>
             </Row>
             <Input name="Phone Number" type="input" />
+            <button
+              aria-label="Add"
+              type="submit"
+              className="add"
+              onClick={saveCustomer}
+              style={{
+                padding: `15px 15px`,
+                backgroundColor: "#0f3460",
+                color: "white",
+                fontSize: "17px",
+                borderRadius: "7px",
+                width: "220px",
+              }}
+            >
+              Save
+            </button>
           </Col>
           <Col md={4}>
             <div className="cart-total">
@@ -67,7 +94,8 @@ const Checkout = () => {
               <button
                 aria-label="Add"
                 type="submit"
-                className="add"
+                className={checkoutButtonClassName}
+                disabled={checkoutButtonDisable}
                 style={{
                   padding: `15px 15px`,
                   backgroundColor: "#0f3460",

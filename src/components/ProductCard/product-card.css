@@ -101,3 +101,13 @@ button.add {
 .product:hover .product-like {
     opacity: 1;
 }
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999 !important;
+  background-color: #cccccc !important;
+  color: #666666 !important;
+  cursor: not-allowed;
+        pointer-events: none;
+
+}
