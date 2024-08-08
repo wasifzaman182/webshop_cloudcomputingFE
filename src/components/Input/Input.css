@@ -1,0 +1,74 @@
+.input-container {
+    margin-bottom: 16px;
+  }
+  
+  .input-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  .input-field:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .input-error {
+    color: #d9534f;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+
+  .select-container {
+    margin-bottom: 16px;
+  }
+  
+  .select-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  .select-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: border-color 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .select-field:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .select-arrow {
+    position: relative;
+  }
+  
+  .select-arrow::after {
+    content: '▼';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  
+  
