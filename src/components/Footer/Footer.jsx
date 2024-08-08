@@ -1,6 +1,7 @@
 import React from "react"
 import "./style.css"
 import { Col, Container, Row } from "react-bootstrap"
+import logo from "../../Images/logo2.png"
 
 const Footer = () => {
   return (
@@ -9,8 +10,7 @@ const Footer = () => {
           <Row className="footer-row">
             <Col md={3} sm={5} className='box'>
               <div className="logo">
-                  <ion-icon name="bag"></ion-icon>
-                  <h1>Multimart</h1>
+              <img alt='logo' style={{ width: 170 }} src={String(logo)} />
               </div>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor libero id et, in gravida. Sit diam duis mauris nulla cursus. Erat et lectus vel ut sollicitudin elit at amet.</p>
             </Col>

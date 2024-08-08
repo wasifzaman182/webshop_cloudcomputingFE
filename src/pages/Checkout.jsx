@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Modal, Box, Typography } from "@mui/material";
 import { createCustomer, saveOrder, stripePayment } from "../api/service";
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 import Input from "../components/Input/Input";
 
@@ -47,6 +49,12 @@ const Checkout = () => {
     (price, item) => price + item.qty * item.price,
     0
   );
+
+  const stripePromise = loadStripe('pk_test_51Pjhy92MAdf1D5fXT5mHaA81owJF7G2wLnb2cVaacgEH5qOTaq6LHpdjXgRotUMYoZdTtFCZntbeuaGdAJWIdtz600IlOHqQqL');
+  const options = {
+    // passing the client secret obtained from the server
+    clientSecret: 'sk_test_51Pjhy92MAdf1D5fXWUJFRQroZie0jS3KFymyAtEYj9AQcZ4uu9TAvd3oAasybvjHc4aHEHUGFMdBmguhOOryYJkI00Sh8X4Nh3',
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -211,27 +219,29 @@ const Checkout = () => {
             <Box sx={style}>
               <Row className="justify-content-center">
                 <Col>
-                  <Input name="Card Number" value={cardNumber} type="input" changeHandler={setCardNumber} />
-                  <Input name="Expiry Month" value={expiryMonth} type="input" changeHandler={setExpiryMonth} />
-                  <Input name="Expiry year" value={expiryYear} type="input" changeHandler={setExpiryYear} />
-                  <Input name="CVC" value={cvc} type="input" changeHandler={setCvc} />
-                  <button
-                    aria-label="Add"
-                    type="submit"
-                    className={checkoutButtonClassName}
-                    disabled={checkoutButtonDisable}
-                    onClick={createOrder}
-                    style={{
-                      padding: `15px 15px`,
-                      backgroundColor: "#0f3460",
-                      color: "white",
-                      fontSize: "17px",
-                      borderRadius: "7px",
-                      width: "220px",
-                    }}
-                  >
-                    Confirm
-                  </button>
+
+                    <Input name="Card Number" value={cardNumber} type="input" changeHandler={setCardNumber} />
+                    <Input name="Expiry Month" value={expiryMonth} type="input" changeHandler={setExpiryMonth} />
+                    <Input name="Expiry year" value={expiryYear} type="input" changeHandler={setExpiryYear} />
+                    <Input name="CVC" value={cvc} type="input" changeHandler={setCvc} />
+                    <button
+                      aria-label="Add"
+                      type="submit"
+                      className={checkoutButtonClassName}
+                      disabled={checkoutButtonDisable}
+                      onClick={createOrder}
+                      style={{
+                        padding: `15px 15px`,
+                        backgroundColor: "#0f3460",
+                        color: "white",
+                        fontSize: "17px",
+                        borderRadius: "7px",
+                        width: "220px",
+                      }}
+                    >
+                      Confirm
+                    </button>
+
                 </Col>
               </Row>
             </Box>
