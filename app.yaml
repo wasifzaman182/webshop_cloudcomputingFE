@@ -1,4 +1,4 @@
-runtime: nodejs14
+runtime: nodejs21
 handlers:
   - url: /
     static_files: build/index.html
