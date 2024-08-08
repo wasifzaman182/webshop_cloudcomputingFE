@@ -2,11 +2,28 @@ import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { createCustomer, saveOrder } from "../api/service";
+import { Modal, Box, Typography } from "@mui/material";
+import { createCustomer, saveOrder, stripePayment } from "../api/service";
 
 import Input from "../components/Input/Input";
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 const Checkout = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
@@ -16,6 +33,11 @@ const Checkout = () => {
   const [city, setCity] = useState();
   const [postalCode, setPostalCode] = useState();
   const [state, setState] = useState();
+
+  const [cardNumber, setCardNumber] = useState();
+  const [expiryMonth, setExpiryMonth] = useState();
+  const [expiryYear, setExpiryYear] = useState();
+  const [cvc, setCvc] = useState();
 
   const [checkoutButtonDisable, setCheckoutButtonDisable] = useState(true);
   const [newCustomerId, setNewCustomerId] = useState();
@@ -52,6 +74,7 @@ const Checkout = () => {
   };
 
   const createOrder = async () => {
+    await stripePayment(cardNumber, expiryMonth, expiryYear, cvc, 'pk_test_51Pjhy92MAdf1D5fXT5mHaA81owJF7G2wLnb2cVaacgEH5qOTaq6LHpdjXgRotUMYoZdTtFCZntbeuaGdAJWIdtz600IlOHqQqL', totalPrice)
     await saveOrder(newCustomerId, 'shipping', totalPrice, 1, 2);
   };
 
@@ -165,7 +188,7 @@ const Checkout = () => {
                 type="submit"
                 className={checkoutButtonClassName}
                 disabled={checkoutButtonDisable}
-                onClick={createOrder}
+                onClick={handleOpen}
                 style={{
                   padding: `15px 15px`,
                   backgroundColor: "#0f3460",
@@ -179,6 +202,40 @@ const Checkout = () => {
               </button>
             </Link>
           </Col>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Row className="justify-content-center">
+                <Col>
+                  <Input name="Card Number" value={cardNumber} type="input" changeHandler={setCardNumber} />
+                  <Input name="Expiry Month" value={expiryMonth} type="input" changeHandler={setExpiryMonth} />
+                  <Input name="Expiry year" value={expiryYear} type="input" changeHandler={setExpiryYear} />
+                  <Input name="CVC" value={cvc} type="input" changeHandler={setCvc} />
+                  <button
+                    aria-label="Add"
+                    type="submit"
+                    className={checkoutButtonClassName}
+                    disabled={checkoutButtonDisable}
+                    onClick={createOrder}
+                    style={{
+                      padding: `15px 15px`,
+                      backgroundColor: "#0f3460",
+                      color: "white",
+                      fontSize: "17px",
+                      borderRadius: "7px",
+                      width: "220px",
+                    }}
+                  >
+                    Confirm
+                  </button>
+                </Col>
+              </Row>
+            </Box>
+          </Modal>
         </Row>
       </Container>
     </section>

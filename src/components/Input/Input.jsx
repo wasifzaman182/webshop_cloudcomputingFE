@@ -3,12 +3,13 @@ import "./Input.css"
 const Input = ({ name, type, value, changeHandler }) => {
 
     const options = [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "React",
-        "Redux",
+        "Germany",
+        "USA",
+        "UK",
+        "Canada",
+        "Australia",
     ];
+
     const inputComponent =
         <label className="input-label">
             {name}:

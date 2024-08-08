@@ -10,8 +10,7 @@ import { ToastContainer } from "react-toastify";
 
 import { getAllProducts } from "./api/service";
 import {
-  addAllProducts,
-  getAllProducts as getProducts,
+  addAllProducts
 } from "./app/features/products/productsSlice";
 import { useDispatch } from "react-redux";
 

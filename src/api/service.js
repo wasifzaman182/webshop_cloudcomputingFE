@@ -48,6 +48,7 @@ export const stripePayment = async (
   formData.append("amount", amount);
 
   const payment = await apiService.post("/webshop/payment/charge", formData);
+  console.log(payment)
   return payment;
 };
 
