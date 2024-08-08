@@ -1,17 +1,39 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Loader from "./components/Loader/Loader";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+import { getAllProducts } from "./api/service";
+import {
+  addAllProducts,
+  getAllProducts as getProducts,
+} from "./app/features/products/productsSlice";
+import { useDispatch } from "react-redux";
+
 const Home = lazy(() => import("./pages/Home"));
 const Shop = lazy(() => import("./pages/Shop"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Product = lazy(() => import("./pages/Product"));
 const Checkout = lazy(() => import("./pages/Checkout"));
+
 function App() {
+  const dispatch = useDispatch();
+
+  async function initProducts() {
+    const products = await getAllProducts();
+    dispatch(addAllProducts({ products }));
+  }
+
+  useEffect(() => {
+    initProducts();
+    dispatch(getProducts());
+  }, []);
+
   return (
     <Suspense fallback={<Loader />}>
       <Router>

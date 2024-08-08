@@ -75,3 +75,18 @@ export const createCustomer = async (
   });
   return newCustomer;
 };
+
+export const findAllCategories = async () => {
+  const categoriesAndProducts = await apiService.get("/webshop/category/findAll");
+  return categoriesAndProducts;
+}
+
+export const getProduct = async (id) => {
+  const product = await apiService.get("/webshop/product/getProduct");
+  return product;
+}
+
+export const getAllProducts = async () => {
+  const products = await apiService.get("/webshop/product/getAll");
+  return products;
+}
