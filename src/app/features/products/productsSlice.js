@@ -1,9 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
-const storedProducts = [];
 
 const initialState = {
-  products: storedProducts,
+  products: [],
 };
 
 export const productsSlice = createSlice({
@@ -11,12 +10,10 @@ export const productsSlice = createSlice({
   initialState,
   reducers: {
     addAllProducts: (state, action) => {
-        const allProducts = action.payload.products;
-        console.log('Setting state');
-        console.log(allProducts)
-        state.products = allProducts;
+      return [...state.products, ...action.payload.products]
     },
     getAllProducts: (state) => {
+      console.log(current(state));
       return state.products;
     }
   },

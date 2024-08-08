@@ -1,11 +1,11 @@
 import Select from "react-select";
 import { products } from "../utils/products";
 import { getAllProducts } from "../app/features/products/productsSlice";
-import { findAllCategories } from "../api/service";
+import { findAllCategories, getProductsbyCategory } from "../api/service";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
-const options = [{ value: "All", label: "All" }];
+let options = [{ value: "All", label: "All" }];
 
 const customStyles = {
   control: (provided) => ({
@@ -34,26 +34,29 @@ const customStyles = {
 };
 
 const FilterSelect = ({ setFilterList }) => {
-  const dispatch = useDispatch();
-  const handleChange = (selectedOption) => {
+  const products = useSelector((state) => state.products);
+  const handleChange = async (selectedOption) => {
+    console.log(selectedOption.value)
     // set products to selected filter.
     if (selectedOption.value === "All") {
-      setFilterList(dispatch(getAllProducts()));
+      setFilterList(products);
     }
     else {
         const selectedCategoryId = selectedOption.value;
-        
+        const productsbyCategory = await getProductsbyCategory(selectedCategoryId);
+        setFilterList(productsbyCategory.data);
     }
   };
 
   async function initCategories() {
     const categoriesAndProducts = await findAllCategories();
-    categoriesAndProducts.forEach((cp) => {
+    categoriesAndProducts.data.forEach((cp) => {
       options.push({ value: cp.categoryID, label: cp.categoryName });
     });
   }
 
   useEffect(() => {
+    console.log('Setting categories');
     initCategories();
   }, []);
 
@@ -62,7 +65,7 @@ const FilterSelect = ({ setFilterList }) => {
   return (
     <Select
       options={options}
-      defaultValue={{ value: "", label: "Filter By Category" }}
+      defaultValue={{ value: "All", label: "Filter By Category" }}
       styles={customStyles}
       onChange={handleChange}
     />

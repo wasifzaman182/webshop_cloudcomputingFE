@@ -24,15 +24,14 @@ const Checkout = lazy(() => import("./pages/Checkout"));
 function App() {
   const dispatch = useDispatch();
 
-  async function initProducts() {
-    const products = await getAllProducts();
-    dispatch(addAllProducts({ products }));
-  }
-
   useEffect(() => {
+    async function initProducts() {
+      const products = await getAllProducts();
+      dispatch(addAllProducts({ products: products.data }));
+    }
+
     initProducts();
-    dispatch(getProducts());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Suspense fallback={<Loader />}>

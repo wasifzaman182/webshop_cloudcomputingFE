@@ -90,3 +90,8 @@ export const getAllProducts = async () => {
   const products = await apiService.get("/webshop/product/getAll");
   return products;
 }
+
+export const getProductsbyCategory = async (id) => {
+  const productsbyCategory = await apiService.get('/webshop/product/getProductsByCategory?id=' + id);
+  return productsbyCategory;
+}
