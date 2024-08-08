@@ -6,11 +6,13 @@ import { products } from "../utils/products";
 import ShopList from "../components/ShopList";
 import Banner from "../components/Banner/Banner";
 import useWindowScrollToTop from "../hooks/useWindowScrollToTop";
+import { useDispatch } from "react-redux";
+import { getAllProducts } from "../app/features/products/productsSlice";
 
 const Shop = () => {
-  const [filterList, setFilterList] = useState(
-    products.filter((item) => item.category === "sofa")
-  );
+  const dispatch = useDispatch();
+  const products = dispatch(getAllProducts());
+  const [filterList, setFilterList] = useState(products);
   useWindowScrollToTop();
 
   return (
@@ -29,7 +31,7 @@ const Shop = () => {
           </Row>
         </Container>
         <Container>
-          <ShopList productItems={filterList} />
+          <ShopList productItems={filterList && []} />
         </Container>
       </section>
     </Fragment>
