@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = "http://localhost:8080/webshop";
 
 const apiService = axios.create({ baseURL: API_BASE_URL });
 
@@ -21,7 +21,7 @@ export const saveOrder = async (
   shippingAddressId,
   billingAddressId
 ) => {
-  const orderResponse = await apiService.post("/webshop/order/saveOrder", {
+  const orderResponse = await apiService.post("/order/saveOrder", {
     customerId,
     status,
     totalAmount,
@@ -47,7 +47,7 @@ export const stripePayment = async (
   formData.append("token", token);
   formData.append("amount", amount);
 
-  const payment = await apiService.post("/webshop/payment/charge", formData);
+  const payment = await apiService.post("/payment/charge", formData);
   console.log(payment)
   return payment;
 };
@@ -63,7 +63,7 @@ export const createCustomer = async (
   state,
   city
 ) => {
-  const newCustomer = await apiService.post("/webshop/customer/saveCustomer", {
+  const newCustomer = await apiService.post("/customer/saveCustomer", {
     firstName,
     lastName,
     email,
@@ -78,21 +78,21 @@ export const createCustomer = async (
 };
 
 export const findAllCategories = async () => {
-  const categoriesAndProducts = await apiService.get("/webshop/category/findAll");
+  const categoriesAndProducts = await apiService.get("/category/findAll");
   return categoriesAndProducts;
 }
 
 export const getProduct = async (id) => {
-  const product = await apiService.get("/webshop/product/getProduct");
+  const product = await apiService.get("/product/getProduct");
   return product;
 }
 
 export const getAllProducts = async () => {
-  const products = await apiService.get("/webshop/product/getAll");
+  const products = await apiService.get("/product/getAll");
   return products;
 }
 
 export const getProductsbyCategory = async (id) => {
-  const productsbyCategory = await apiService.get('/webshop/product/getProductsByCategory?id=' + id);
+  const productsbyCategory = await apiService.get('/product/getProductsByCategory?id=' + id);
   return productsbyCategory;
 }
