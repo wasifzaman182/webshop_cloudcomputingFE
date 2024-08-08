@@ -1,8 +1,9 @@
 import { useState } from "react";
 import "./searchbar.css";
-import { products } from "../../utils/products";
-// import useDebounce from "../../hooks/useDebounce";
+import { useSelector } from "react-redux";
+
 const SearchBar = ({ setFilterList }) => {
+  const products = useSelector((state) => state.products);
   const [searchWord, setSearchWord] = useState(null);
   // const debounceSearchWord = useDebounce(searchWord, 300);
   const handelChange = (input) => {
@@ -13,6 +14,7 @@ const SearchBar = ({ setFilterList }) => {
       )
     );
   };
+
   return (
     <div className="search-container">
       <input type="text" placeholder="Search..." onChange={handelChange} />

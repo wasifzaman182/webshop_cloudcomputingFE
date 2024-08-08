@@ -12,9 +12,7 @@ export const productsSlice = createSlice({
   reducers: {
     addAllProducts: (state, action) => {
         const allProducts = action.payload.products;
-        console.log('Setting state');
-        console.log(allProducts)
-        state.products = allProducts;
+        return [...state, ...allProducts]
     },
     getAllProducts: (state) => {
       return state.products;
